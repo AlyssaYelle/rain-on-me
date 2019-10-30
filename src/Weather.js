@@ -9,6 +9,10 @@ class Weather extends Component {
     this.state = {
       date: '',
       time: '',
+      coords: {
+        lat: '40.7400628',
+        long: '-73.9895542'
+      },
       weatherReport: {
         currentTemp: '',
         highTemp: '',
@@ -21,6 +25,35 @@ class Weather extends Component {
   }
 
   componentDidMount() {
+    this.setDateTime();
+
+    //fetch weather report
+    // let url = `https://cors-anywhere.herokuapp.com/https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/13719750fdda6865369adcfb2dbaef70/${this.state.coords.lat},${this.state.coords.long}?exclude=minutely,flags`;
+    // fetch(url, {
+    //
+  	// })
+  	// .then((res) => {
+  	// 	return res.json();
+  	// })
+  	// .then((res) => {
+    //   console.log(res)
+  	// 	this.setState({
+    //     weatherReport: {
+    //       currentTemp: Math.floor(res.currently.temperature),
+    //       highTemp: Math.floor(res.daily.data[0].temperatureLow),
+    //       lowTemp: Math.floor(res.daily.data[0].temperatureHigh),
+    //       precip: res.currently.precipProbability * 100,
+    //       humidity: res.daily.data[0].humidity * 100,
+    //       windSpeed: Math.floor(res.currently.windSpeed)
+    //     }
+    //   })
+  	// })
+  	// .catch((err) => {
+  	// 	console.log(err)
+  	// })
+  }
+
+  setDateTime() {
     let today = new Date();
     let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
     let dateStr = `${today.getDate()} ${months[today.getMonth()]} ${today.getFullYear()}`
@@ -48,42 +81,18 @@ class Weather extends Component {
       date: dateStr,
       time: timeStr
     })
-
-    // fetch weather report
-    // let url = 'https://cors-anywhere.herokuapp.com/https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/13719750fdda6865369adcfb2dbaef70/40.7400628,-73.9895542?exclude=minutely,flags';
-    // fetch(url, {
-    //
-  	// })
-  	// .then((res) => {
-  	// 	return res.json();
-  	// })
-  	// .then((res) => {
-    //   console.log(res)
-  	// 	this.setState({
-    //     weatherReport: {
-    //       currentTemp: Math.floor(res.currently.temperature),
-    //       highTemp: Math.floor(res.daily.data[0].temperatureLow),
-    //       lowTemp: Math.floor(res.daily.data[0].temperatureHigh),
-    //       precip: res.currently.precipProbability * 100,
-    //       humidity: res.daily.data[0].humidity * 100,
-    //       windSpeed: Math.floor(res.currently.windSpeed)
-    //     }
-    //   })
-  	// })
-  	// .catch((err) => {
-  	// 	console.log(err)
-  	// })
   }
-
-
 
 
   render () {
     return (
-      <div>
-        <h2>{this.state.date}</h2>
-        <h3>{this.state.time}</h3>
-        <p>It is currently {this.state.weatherReport.currentTemp} with a {this.state.weatherReport.precip}% chance of rain.
+      <div className='weather'>
+        <div class='datetime'>
+          <h2>{this.state.date}</h2>
+          <h3>{this.state.time}</h3>
+        </div>
+        <div className='currentTemp'>{this.state.weatherReport.currentTemp}</div>
+        <p>{this.state.weatherReport.precip}% chance of rain.
         You can expect a low of {this.state.weatherReport.lowTemp} and a high of {this.state.weatherReport.highTemp}.
         </p>
 
