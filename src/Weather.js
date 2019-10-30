@@ -10,8 +10,8 @@ class Weather extends Component {
       date: '',
       time: '',
       coords: {
-        lat: '40.7400628',
-        long: '-73.9895542'
+        lat: '',
+        long: ''
       },
       weatherReport: {
         currentTemp: '',
@@ -27,30 +27,10 @@ class Weather extends Component {
   componentDidMount() {
     this.setDateTime();
 
-    //fetch weather report
-    // let url = `https://cors-anywhere.herokuapp.com/https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/13719750fdda6865369adcfb2dbaef70/${this.state.coords.lat},${this.state.coords.long}?exclude=minutely,flags`;
-    // fetch(url, {
-    //
-  	// })
-  	// .then((res) => {
-  	// 	return res.json();
-  	// })
-  	// .then((res) => {
-    //   console.log(res)
-  	// 	this.setState({
-    //     weatherReport: {
-    //       currentTemp: Math.floor(res.currently.temperature),
-    //       highTemp: Math.floor(res.daily.data[0].temperatureLow),
-    //       lowTemp: Math.floor(res.daily.data[0].temperatureHigh),
-    //       precip: res.currently.precipProbability * 100,
-    //       humidity: res.daily.data[0].humidity * 100,
-    //       windSpeed: Math.floor(res.currently.windSpeed)
-    //     }
-    //   })
-  	// })
-  	// .catch((err) => {
-  	// 	console.log(err)
-  	// })
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(this.setCoords.bind(this));
+    }
+
   }
 
   setDateTime() {
@@ -83,18 +63,58 @@ class Weather extends Component {
     })
   }
 
+  setCoords(position) {
+    let lat = position.coords.latitude
+    let long = position.coords.longitude
+    this.setState({
+      coords: {
+        lat: lat,
+        long: long
+      }
+    })
+
+    this.fetchWeather()
+  }
+
+  fetchWeather() {
+    let url = `https://cors-anywhere.herokuapp.com/https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/13719750fdda6865369adcfb2dbaef70/${this.state.coords.lat},${this.state.coords.long}?exclude=minutely,flags`;
+    fetch(url, {
+
+    })
+    .then((res) => {
+      return res.json();
+    })
+    .then((res) => {
+      console.log(res)
+      this.setState({
+        weatherReport: {
+          currentTemp: Math.floor(res.currently.temperature),
+          highTemp: Math.floor(res.daily.data[0].temperatureLow),
+          lowTemp: Math.floor(res.daily.data[0].temperatureHigh),
+          precip: res.currently.precipProbability * 100,
+          humidity: res.daily.data[0].humidity * 100,
+          windSpeed: Math.floor(res.currently.windSpeed)
+        }
+      })
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }
+
 
   render () {
     return (
       <div className='weather'>
         <div class='datetime'>
-          <h2>{this.state.date}</h2>
-          <h3>{this.state.time}</h3>
+          <h2>{this.state.time}, {this.state.date}</h2>
+          <div className="temps">
+            <h2>&#8593; {this.state.weatherReport.highTemp}&deg;F</h2>
+            <h2 id='current'>{this.state.weatherReport.currentTemp}&deg;F</h2>
+            <h2>&#8595; {this.state.weatherReport.lowTemp}&deg;F</h2>
+          </div>
         </div>
-        <div className='currentTemp'>{this.state.weatherReport.currentTemp}</div>
-        <p>{this.state.weatherReport.precip}% chance of rain.
-        You can expect a low of {this.state.weatherReport.lowTemp} and a high of {this.state.weatherReport.highTemp}.
-        </p>
+
 
       </div>
     );

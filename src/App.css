@@ -62,3 +62,14 @@ a:hover {
 .datetime {
   text-align: center;
 }
+
+.temps {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#current {
+  font-size: 2rem;
+}
