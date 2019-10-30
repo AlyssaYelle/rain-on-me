@@ -7,8 +7,8 @@ import {
   Link
 } from 'react-router-dom';
 
-import Home from './Home';
-import Calendar from './Calendar';
+
+import About from './About';
 import Weather from './Weather';
 
 
@@ -20,17 +20,15 @@ class App extends Component {
         <div>
 
           <header>
-            <h1>Hello, Alyssa</h1>
+            <h1>Rain on me</h1>
             <nav>
-                <Link to="/">Day at a glance</Link>{' '}
-                <Link to="/weather">Weather report</Link>{' '}
-                <Link to="/calendar">Calendar</Link>
+                <Link to="/">Weather</Link>{' '}
+                <Link to="/about">About</Link>{' '}
             </nav>
           </header>
 
-          <Route exact path="/" component={Home} />
-          <Route path="/weather" component={Weather} />
-          <Route path="/calendar" component={Calendar} />
+          <Route exact path="/" component={Weather} />
+          <Route path="/about" component={About} />
 
         </div>
 
