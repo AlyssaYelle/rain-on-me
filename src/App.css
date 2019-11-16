@@ -45,7 +45,7 @@ nav a {
 
 a:hover {
   text-decoration: underline;
-  color: #3c2457;
+  color: #72c2cc;
 }
 
 .weather {
@@ -72,4 +72,31 @@ a:hover {
 
 #current {
   font-size: 2rem;
+}
+
+.about {
+  width: 60%;
+  background:rgba(255,255,255,0.45);
+  margin: 5% auto;
+  padding: 25px 25px;
+  border: 1px solid white;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.about a {
+  text-decoration: none;
+  color: #72c2cc;
+  text-shadow:
+		-1px -1px 0 #052c30,
+		1px -1px 0 #052c30,
+		-1px 1px 0 #052c30,
+		1px 1px 0 #052c30;
+}
+
+.about a:hover {
+  text-decoration: underline;
+  color: #052c30;
+  text-shadow: none;
 }
