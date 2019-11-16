@@ -7,6 +7,7 @@ class Weather extends Component {
     super();
 
     this.state = {
+      weatherIsLoaded: false,
       date: '',
       time: '',
       coords: {
@@ -87,10 +88,11 @@ class Weather extends Component {
     .then((res) => {
       console.log(res)
       this.setState({
+        weatherIsLoaded: true,
         weatherReport: {
           currentTemp: Math.floor(res.currently.temperature),
-          highTemp: Math.floor(res.daily.data[0].temperatureLow),
-          lowTemp: Math.floor(res.daily.data[0].temperatureHigh),
+          highTemp: Math.floor(res.daily.data[0].temperatureHigh),
+          lowTemp: Math.floor(res.daily.data[0].temperatureLow),
           precip: res.currently.precipProbability * 100,
           humidity: res.daily.data[0].humidity * 100,
           windSpeed: Math.floor(res.currently.windSpeed)
@@ -108,11 +110,14 @@ class Weather extends Component {
       <div className='weather'>
         <div class='datetime'>
           <h2>{this.state.time}, {this.state.date}</h2>
-          <div className="temps">
-            <h2>&#8593; {this.state.weatherReport.highTemp}&deg;F</h2>
-            <h2 id='current'>{this.state.weatherReport.currentTemp}&deg;F</h2>
-            <h2>&#8595; {this.state.weatherReport.lowTemp}&deg;F</h2>
-          </div>
+          {this.state.weatherIsLoaded ?
+            <div className="temps">
+              <h2>&#8595; {this.state.weatherReport.lowTemp}&deg;F</h2>
+              <h2 id='current'>{this.state.weatherReport.currentTemp}&deg;F</h2>
+              <h2>&#8593; {this.state.weatherReport.highTemp}&deg;F</h2>
+            </div>
+            : <h3>Scanning your skies...</h3>
+          }
         </div>
 
 
